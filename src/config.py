@@ -47,10 +47,11 @@ QUERY_INSTRUCTION = (
 )
 
 # ── Provider 配置 ─────────────────────────────────────────────
-# (名称, base_url, 环境变量 key)
+# (名称, base_url 环境变量名, api_key 环境变量名)
+# 匹配 .env.example 与 Go config.example.yaml 的命名
 PROVIDERS = [
-    ("ModelScope", "https://api-inference.modelscope.cn/v1", "MODELSCOPE_TOKEN"),
-    ("SiliconFlow", "https://api.siliconflow.cn/v1", "SILICONFLOWS_TOKEN"),
+    ("selfhost", "EMBEDDING_SELFHOST_URL", "EMBEDDING_SELFHOST_KEY"),
+    ("local", "EMBEDDING_LOCAL_URL", "EMBEDDING_LOCAL_KEY"),
 ]
 
 # ── 并发/重试 ────────────────────────────────────────────────

@@ -1,7 +1,7 @@
 """
 embedding.py — Embedding API 客户端。
 
-双 Provider fallback（ModelScope → SiliconFlow），支持重试。
+双 Provider fallback（selfhost → local），支持重试。
 返回原始截断向量（不归一化），由调用方决定是否归一化。
 """
 
@@ -39,9 +39,10 @@ def init_clients() -> list[tuple[str, OpenAI]]:
     global _clients
     if _clients:
         return _clients
-    for name, base_url, env_key in PROVIDERS:
-        token = os.environ.get(env_key)
-        if token:
+    for name, url_env, key_env in PROVIDERS:
+        base_url = os.environ.get(url_env)
+        token = os.environ.get(key_env)
+        if base_url and token:
             _clients.append((name, OpenAI(base_url=base_url, api_key=token)))
     return _clients
 
