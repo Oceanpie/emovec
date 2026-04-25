@@ -1,0 +1,39 @@
+server:
+  addr: ":8080"
+  read_timeout: 15s
+  write_timeout: 30s
+
+embedding:
+  providers:
+    - name: selfhost
+      base_url: "https://your-selfhost-endpoint/v1"
+      api_key: "your-api-key"
+      model: "Qwen/Qwen3-Embedding-0.6B"
+      batch_size: 64
+      timeout: 30s
+
+    - name: modelscope
+      base_url: "https://api-inference.modelscope.cn/v1"
+      api_key: "your-api-key"
+      model: "Qwen/Qwen3-Embedding-0.6B"
+      batch_size: 64
+      timeout: 30s
+
+    - name: siliconflow
+      base_url: "https://api.siliconflow.cn/v1"
+      api_key: "your-api-key"
+      model: "Qwen/Qwen3-Embedding-0.6B"
+      batch_size: 64
+      timeout: 30s
+
+  instruction: "Given a Chinese emotional utterance, retrieve the most relevant emotion description that matches the emotional state expressed"
+
+matching:
+  top_k: 7
+  tau: 0.5
+  scheme: "plutchik"
+
+data:
+  vectors_path: "data/prototype_vectors.bin"
+  labels_path: "data/prototype_labels.json"
+  model_path: "data/model.safetensors"

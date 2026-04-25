@@ -1,0 +1,62 @@
+# Dependencies
+node_modules/
+.venv/
+package-lock.json
+package.json
+
+# Secrets
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Go build artifacts
+emotion-service/*.exe
+emotion-service/build/
+
+# Go service config (contains API keys)
+emotion-service/config.yaml
+
+# Agent internal
+.sisyphus/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# ========================================
+# 数据文件 — 排除所有数据来源及产物
+# ========================================
+
+# 原始数据（原型条目、小说、原始材料）
+data/
+
+# 生成数据（原型向量、标注结果、评估、打包）
+output/
+
+# Go 服务内嵌数据（编译后的原型库）
+emotion-service/data/
+
+# 数据来源文档
+AGENTS.md
+
+# 未使用的设计文档
+docs/模型训练.md
+
+# 数据提取与构建脚本
+scripts/parse_book.js
+scripts/build_prototype.py
+scripts/label_core.js
+scripts/label_emotions.js
+scripts/label_emotions_original.js
+scripts/pack_prepare.py
+scripts/extract_pilot.py
+scripts/analyze_pilot.py
+scripts/expand_samples.py
+scripts/eval_models.py
+scripts/test_instruction_aware.js
+scripts/verify_go_service.py
+scripts/visualize.py
+scripts/convert_data_for_go.py
+scripts/bench_selfhost.py
