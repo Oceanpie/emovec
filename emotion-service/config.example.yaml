@@ -5,23 +5,18 @@ server:
 
 embedding:
   providers:
+    # Primary: self-hosted embedding endpoint
     - name: selfhost
-      base_url: "https://your-selfhost-endpoint/v1"
-      api_key: "your-api-key"
+      base_url: "${EMBEDDING_SELFHOST_URL}"
+      api_key: "${EMBEDDING_SELFHOST_KEY}"
       model: "Qwen/Qwen3-Embedding-0.6B"
       batch_size: 64
       timeout: 30s
 
-    - name: modelscope
-      base_url: "https://api-inference.modelscope.cn/v1"
-      api_key: "your-api-key"
-      model: "Qwen/Qwen3-Embedding-0.6B"
-      batch_size: 64
-      timeout: 30s
-
-    - name: siliconflow
-      base_url: "https://api.siliconflow.cn/v1"
-      api_key: "your-api-key"
+    # Fallback: local OpenAI-compatible API (Ollama, vLLM, LocalAI...)
+    - name: local
+      base_url: "${EMBEDDING_LOCAL_URL}"
+      api_key: "${EMBEDDING_LOCAL_KEY}"
       model: "Qwen/Qwen3-Embedding-0.6B"
       batch_size: 64
       timeout: 30s
@@ -34,6 +29,4 @@ matching:
   scheme: "plutchik"
 
 data:
-  vectors_path: "data/prototype_vectors.bin"
-  labels_path: "data/prototype_labels.json"
   model_path: "data/model.safetensors"

@@ -73,11 +73,11 @@ uv sync
 
 ### 2. 配置 API Key
 
-在项目根目录创建 `.env`：
+复制模板后填入密钥：
 
-```
-MODELSCOPE_TOKEN=...
-SILICONFLOWS_TOKEN=...
+```bash
+cp .env.example .env
+# 编辑 .env：设置你的 embedding 地址和 API Key
 ```
 
 ### 3. 构建原型库
@@ -112,14 +112,19 @@ cp config.example.yaml config.yaml
 # 编辑 config.yaml：填入 API Key、Provider 地址等
 ```
 
-配置文件中 `${VAR}` 占位符从环境变量读取，API Key 无需写入文件：
+配置文件中 `${VAR}` 占位符从环境变量读取，密钥存在 `.env` 里，无需写入 yaml：
 
 ```yaml
 embedding:
   providers:
-    - name: modelscope
-      base_url: "https://api-inference.modelscope.cn/v1"
-      api_key: "${MODELSCOPE_TOKEN}"        # 从环境变量读取
+    - name: selfhost
+      base_url: "${EMBEDDING_SELFHOST_URL}"    # 从 .env 读取
+      api_key: "${EMBEDDING_SELFHOST_KEY}"
+      model: "Qwen/Qwen3-Embedding-0.6B"
+
+    - name: local
+      base_url: "${EMBEDDING_LOCAL_URL}"       # 备用 provider
+      api_key: "${EMBEDDING_LOCAL_KEY}"
       model: "Qwen/Qwen3-Embedding-0.6B"
 ```
 

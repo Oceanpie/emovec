@@ -73,11 +73,11 @@ uv sync
 
 ### 2. Configure API Keys
 
-Create `.env` in the project root:
+Copy the template and fill in your keys:
 
-```
-MODELSCOPE_TOKEN=...
-SILICONFLOWS_TOKEN=...
+```bash
+cp .env.example .env
+# Edit .env: set your embedding endpoint URLs and API keys
 ```
 
 ### 3. Build the Prototype Library
@@ -112,14 +112,19 @@ cp config.example.yaml config.yaml
 # Then edit config.yaml: set your API keys, provider endpoints, etc.
 ```
 
-The config file defines embedding providers (with fallback order), matching parameters, and server settings. `${VAR}` placeholders are expanded from environment variables — so you can keep secrets out of the file:
+The config file defines embedding providers (with fallback order), matching parameters, and server settings. `${VAR}` placeholders are expanded from environment variables — keep secrets in `.env`, not in the yaml:
 
 ```yaml
 embedding:
   providers:
-    - name: modelscope
-      base_url: "https://api-inference.modelscope.cn/v1"
-      api_key: "${MODELSCOPE_TOKEN}"        # read from env
+    - name: selfhost
+      base_url: "${EMBEDDING_SELFHOST_URL}"    # read from .env
+      api_key: "${EMBEDDING_SELFHOST_KEY}"
+      model: "Qwen/Qwen3-Embedding-0.6B"
+
+    - name: local
+      base_url: "${EMBEDDING_LOCAL_URL}"       # fallback provider
+      api_key: "${EMBEDDING_LOCAL_KEY}"
       model: "Qwen/Qwen3-Embedding-0.6B"
 ```
 
