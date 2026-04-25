@@ -100,16 +100,38 @@ uv run python scripts/match.py --scheme original "气死我了"
 uv run python scripts/match.py    # interactive mode
 ```
 
-### 5. Run Go Service
+### 5. Configure the Go Service
 
-> **Requires prototype data files**: The Go service embeds `data/model.safetensors` and `data/prototype_labels.json` at compile time via `go:embed`. Build the prototype library first, then copy the files to `emotion-service/data/`.
+The binary reads `config.yaml` at startup (use `--config path` to override).
+
+```bash
+cd emotion-service
+
+# Copy the example config into place
+cp config.example.yaml config.yaml
+# Then edit config.yaml: set your API keys, provider endpoints, etc.
+```
+
+The config file defines embedding providers (with fallback order), matching parameters, and server settings. `${VAR}` placeholders are expanded from environment variables — so you can keep secrets out of the file:
+
+```yaml
+embedding:
+  providers:
+    - name: modelscope
+      base_url: "https://api-inference.modelscope.cn/v1"
+      api_key: "${MODELSCOPE_TOKEN}"        # read from env
+      model: "Qwen/Qwen3-Embedding-0.6B"
+```
+
+### 6. Run Go Service
+
+> **Requires prototype data files**: The Go service embeds `data/model.safetensors` at compile time via `go:embed`. Build the prototype library first, then copy the files to `emotion-service/data/`.
 
 ```bash
 cd emotion-service
 
 # Copy built prototype data into place
 cp ../output/pack/model.safetensors data/
-# (prototype_labels.json is generated during the build process)
 
 # Build
 go build -o emotion-service.exe .

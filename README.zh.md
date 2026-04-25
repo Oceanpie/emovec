@@ -100,7 +100,30 @@ uv run python scripts/match.py --scheme original "气死我了"
 uv run python scripts/match.py    # 交互模式
 ```
 
-### 5. Go 服务
+### 5. 配置 Go 服务
+
+Go 服务运行时读取 `config.yaml`（可通过 `--config 路径` 覆盖）。
+
+```bash
+cd emotion-service
+
+# 将示例配置复制为运行配置
+cp config.example.yaml config.yaml
+# 编辑 config.yaml：填入 API Key、Provider 地址等
+```
+
+配置文件中 `${VAR}` 占位符从环境变量读取，API Key 无需写入文件：
+
+```yaml
+embedding:
+  providers:
+    - name: modelscope
+      base_url: "https://api-inference.modelscope.cn/v1"
+      api_key: "${MODELSCOPE_TOKEN}"        # 从环境变量读取
+      model: "Qwen/Qwen3-Embedding-0.6B"
+```
+
+### 6. 运行 Go 服务
 
 > **需要原型数据文件**：Go 服务通过 `go:embed` 在编译时内嵌 `data/model.safetensors`。先将构建好的数据文件复制到 `emotion-service/data/`。
 
